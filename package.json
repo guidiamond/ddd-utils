@@ -1,0 +1,19 @@
+{
+  "name": "ddd-utils",
+  "version": "1.0.0",
+  "repository": "https://github.com/guidiamond/ddd-utils",
+  "author": "guidiamond",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.6.3",
+    "@types/uuid": "^8.3.4",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.4"
+  },
+  "scripts": {
+    "build": "tsc --build ."
+  },
+  "dependencies": {
+    "uuidv4": "^6.2.13"
+  }
+}
