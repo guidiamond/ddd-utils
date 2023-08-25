@@ -11,29 +11,30 @@ export class WatchedListMapper {
   }
 
   public static toDomain<T, K, J>(
-    raw: T[],
+    rawObjects: T[],
     toDomain: (entity: T) => Either<Result<DomainError>, Result<K>>,
     factoryCreator: (entities: K[]) => J
   ): Either<Result<DomainError>, Result<J>> {
-    // Run all raw objects against the domain's mapper
-    const results = raw.map((c) => toDomain(c));
+    const domains: K[] = [];
 
-    // Check if any of the objects got a validation error
-    const loansOrError = results.filter((c) => c.isLeft());
+    // Convert rawObjects to a list of domain entities
+    for (const raw of rawObjects) {
+      // Run raw objects against the domain's mapper
+      const result = toDomain(raw);
 
-    // Return first error found to the caller
-    if (loansOrError.length > 0) {
-      const errorResult = loansOrError[0].value as Result<DomainError>;
-      return left(errorResult);
+      // If it gets any validation errors, return it to the caller
+      if (result.isLeft()) {
+        const error = result.value;
+        return left(error);
+      }
+
+      domains.push(result.value.getValue());
     }
 
-    // Get the result of the mapper() calls
-    const loansDomain = results.map((c) => c.value.getValue()) as K[];
+    // Convert cluster of domain entities into a WatchedList domain
+    const watchedListDomain = factoryCreator(domains);
 
-    // Create the WatchedList Entity and return it
-    const loans = factoryCreator(loansDomain);
-
-    return right(Result.ok(loans));
+    return right(Result.ok(watchedListDomain));
   }
 
   public static toDTO<T, K>(
