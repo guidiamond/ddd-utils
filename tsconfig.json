@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDirs": ["./src"],
+    "rootDirs": [
+      "./src"
+    ],
     "module": "commonjs",
     "strict": true,
-    "lib": ["es6"],
+    "lib": [
+      "es6"
+    ],
     "outDir": "build",
     "removeComments": true,
     "experimentalDecorators": true,
@@ -16,8 +20,13 @@
     "noImplicitAny": false,
     "importHelpers": true,
     "resolveJsonModule": true,
-    "declaration": true
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
