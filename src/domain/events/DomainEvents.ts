@@ -1,6 +1,15 @@
-import { IDomainEvent } from "./IDomainEvent";
 import { AggregateRoot } from "../AggregateRoot";
 import { UniqueEntityID } from "../../utils/UniqueEntityID";
+
+export interface IDomainEvent {
+  dateTimeOccurred: Date;
+  get aggregateId(): UniqueEntityID;
+}
+
+export interface IHandle<HandleParam = any> {
+  setupSubscriptions(): void;
+  handle(event: HandleParam): Promise<void>;
+}
 
 interface IHandlersMap {
   [key: string]: ((event: IDomainEvent) => void)[];
